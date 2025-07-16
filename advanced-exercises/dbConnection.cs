@@ -124,8 +124,8 @@ namespace AdvancedExercises
             {
                 Console.WriteLine("Timeout expired");
             }
-            
-             TimeSpan timeout2 = TimeSpan.FromSeconds(10);
+
+            TimeSpan timeout2 = TimeSpan.FromSeconds(10);
             var connection3 = new SqlConnection("Server=myServer;Database=myDb;", timeout2);
             connection3.Open();
             var dbCommand1 = new DbCommand(connection3);
