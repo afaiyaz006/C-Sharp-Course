@@ -12,7 +12,7 @@ namespace AdvancedExercises
         {
             if (isRunning)
             {
-                throw new InvalidOperationException("Time is already running.");
+                throw new InvalidOperationException("Stop Watch is already running.");
             }
             startTime = DateTime.Now;
             isRunning = true;
@@ -20,6 +20,10 @@ namespace AdvancedExercises
 
         public void Stop()
         {
+            if (!isRunning)
+            {
+                throw new InvalidOperationException("Run stop watch first.");
+            }
             stopTime = DateTime.Now;
             isRunning = false;
         }
