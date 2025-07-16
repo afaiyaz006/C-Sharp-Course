@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace AdvancedExercises
 {
-    abstract class DbConnection
+    public abstract class DbConnection
     {
         protected string connectionString;
         protected TimeSpan timeout;
@@ -26,7 +26,7 @@ namespace AdvancedExercises
         public abstract void Close();
     }
 
-    class SqlConnection : DbConnection
+    public class SqlConnection : DbConnection
     {
         public SqlConnection(string connectionString, TimeSpan timeout)
             : base(connectionString, timeout)
@@ -83,28 +83,60 @@ namespace AdvancedExercises
             Console.WriteLine("Oracle Connection Closed.");
         }
     }
+    public class DbCommand
+    {
+        protected DbConnection dbConnection;
+        public DbCommand(DbConnection dbConnection)
+        {
+            this.dbConnection = dbConnection;
+        }
+        public void SendInstruction()
+        {
+            Console.WriteLine("Sent instruction to: " + dbConnection);
+        }
 
+    }
     class MainProgram
     {
         static void Main(string[] args)
         {
-            TimeSpan timeout1 = TimeSpan.FromSeconds(10);
-            var connection3 = new SqlConnection("Server=myServer;Database=myDb;", timeout1);
+
+            TimeSpan timeout1 = TimeSpan.FromSeconds(1);
+            try
+            {
+
+                var connection1 = new SqlConnection("Server=myServer;Database=myDb;", timeout1);
+                connection1.Open();
+
+                connection1.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Timeout expired");
+            }
+            try
+            {
+                var connection2 = new OracleConnection("Data Source=OracleDB;", timeout1);
+                connection2.Open();
+                connection2.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Timeout expired");
+            }
+            
+             TimeSpan timeout2 = TimeSpan.FromSeconds(10);
+            var connection3 = new SqlConnection("Server=myServer;Database=myDb;", timeout2);
             connection3.Open();
+            var dbCommand1 = new DbCommand(connection3);
+            dbCommand1.SendInstruction();
             connection3.Close();
 
-            var connection4 = new OracleConnection("Data Source=OracleDB;", timeout1);
+            var connection4 = new OracleConnection("Data Source=OracleDB;", timeout2);
             connection4.Open();
+            var dbCommand2 = new DbCommand(connection4);
+            dbCommand2.SendInstruction();
             connection4.Close();
-            TimeSpan timeout2 = TimeSpan.FromSeconds(1);
-
-            var connection1 = new SqlConnection("Server=myServer;Database=myDb;", timeout2);
-            connection1.Open();
-            connection1.Close();
-
-            var connection2 = new OracleConnection("Data Source=OracleDB;", timeout2);
-            connection2.Open();
-            connection2.Close();
 
 
         }
