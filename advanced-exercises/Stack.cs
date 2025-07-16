@@ -18,6 +18,10 @@ namespace AdvancedExercises
         }
         public void Pop()
         {
+            if (objectList.Count == 0)
+            {
+                throw new InvalidOperationException("Nothing to remove");
+            }
             objectList.RemoveAt(objectList.Count - 1);
         }
     }
@@ -26,6 +30,14 @@ namespace AdvancedExercises
         static void Main(string[] args)
         {
             var stack = new Stack();
+            try
+            {
+                stack.Pop();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occured " + e);
+            }
             stack.Push(1);
             stack.Push(2);
             stack.Push(3);
@@ -34,6 +46,7 @@ namespace AdvancedExercises
             stack.Push(6);
             stack.Pop();
             stack.PrintStack();
+
         }
     }
 }
