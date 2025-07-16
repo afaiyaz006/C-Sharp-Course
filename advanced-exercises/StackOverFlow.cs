@@ -39,6 +39,7 @@ namespace AdvancedExercises
                 "A",
                 "B"
             );
+        
             stackPost.GetPost();
             stackPost.UpVote();
             stackPost.UpVote();
